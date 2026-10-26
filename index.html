@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no" />
+  <meta name="theme-color" content="#dff17a" />
+  <meta name="description" content="把原创奶蛙放进荒诞科研图表里，拖一拖、点一点，看看能不能发顶刊。" />
+  <meta property="og:title" content="奶蛙实验室" />
+  <meta property="og:description" content="我的研究对象今天又不配合。" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="laughing-frog.png" />
+  <title>奶蛙实验室</title>
+  <style>
+    :root{--ink:#172316;--paper:#f6f6e9;--acid:#dff17a;--yellow:#f3c84b;--pink:#ff7c8f;--cyan:#62cddb;--line:#d6ddc2}
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html,body{margin:0;min-height:100%;background:#11170f;color:var(--ink);font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;overscroll-behavior:none}
+    body{display:flex;justify-content:center;overflow:hidden}
+    button{font:inherit;color:inherit}
+    .app{width:min(100%,520px);height:100dvh;min-height:580px;background:var(--paper);position:relative;overflow:hidden;box-shadow:0 0 80px #0008;isolation:isolate}
+    header{height:82px;padding:calc(14px + env(safe-area-inset-top)) 18px 10px;display:flex;align-items:flex-end;justify-content:space-between;position:relative;z-index:20}
+    .brand{display:flex;align-items:center;gap:9px}.brand-mark{width:32px;height:32px;background:var(--ink);color:var(--acid);display:grid;place-items:center;border-radius:10px;transform:rotate(-5deg);font-weight:900}.brand h1{font-size:18px;line-height:1;margin:0}.brand p{font-size:10px;margin:5px 0 0;opacity:.58;letter-spacing:.12em}
+    .paper-pill{border:1.5px solid var(--ink);border-radius:99px;padding:7px 10px;background:var(--acid);font-size:11px;font-weight:800;box-shadow:2px 2px 0 var(--ink)}
+    .lab{position:absolute;inset:82px 0 124px;overflow:hidden;touch-action:none;background-color:#fbfbf2;background-image:linear-gradient(#dce2ce 1px,transparent 1px),linear-gradient(90deg,#dce2ce 1px,transparent 1px),linear-gradient(#cbd4b6 1px,transparent 1px),linear-gradient(90deg,#cbd4b6 1px,transparent 1px);background-size:16px 16px,16px 16px,80px 80px,80px 80px;border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink)}
+    .chart-title{position:absolute;left:18px;top:14px;font-family:Georgia,serif;font-size:16px;font-weight:700}.chart-sub{position:absolute;left:18px;top:38px;font:10px ui-monospace,monospace;opacity:.55}.axis-x{position:absolute;bottom:9px;left:50%;font:10px ui-monospace,monospace}.axis-y{position:absolute;left:5px;top:50%;transform:rotate(-90deg) translateX(-50%);transform-origin:left top;font:10px ui-monospace,monospace}.lines{position:absolute;inset:0;width:100%;height:100%;overflow:visible}.lines polyline{fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;opacity:.84}.legend{position:absolute;right:12px;top:14px;background:#fffff5d9;border:1px solid #afb99a;padding:7px 9px;border-radius:8px;font:8px ui-monospace,monospace;backdrop-filter:blur(5px)}.legend i{display:inline-block;width:14px;border-top:2px solid;margin-right:5px;vertical-align:middle}
+    #pets{position:absolute;inset:0}.pet{position:absolute;width:88px;height:108px;display:flex;align-items:flex-end;justify-content:center;transform:translate(-50%,-50%);touch-action:none;cursor:grab;filter:drop-shadow(0 7px 3px #54602c38);will-change:left,top,transform}.pet:active{cursor:grabbing}.pet img{width:100%;height:100%;object-fit:contain;pointer-events:none;user-select:none}.pet .tag{position:absolute;top:2px;left:50%;transform:translateX(-50%);white-space:nowrap;border:1px solid var(--ink);background:#fffef0;border-radius:10px;padding:2px 6px;font:8px ui-monospace,monospace;opacity:0;transition:.15s;box-shadow:1px 1px 0 var(--ink)}.pet.selected .tag{opacity:1}.pet.bounce{animation:bounce .58s cubic-bezier(.2,.8,.2,1)}.pet.laugh{animation:laugh .18s linear infinite}.pet.sleep img{filter:saturate(.55);transform:rotate(8deg)}.pet.sleep:after{content:"Z z";position:absolute;right:2px;top:14px;font:900 16px Georgia;color:#556c80;animation:float 1.4s infinite}.pet.big{width:125px;height:150px}.pet.tiny{width:62px;height:80px}.pet.source-laugh{width:96px;height:166px;filter:drop-shadow(0 7px 3px #54602c22)}.pet.source-laugh img{width:100%;height:100%;object-fit:contain}
+    @keyframes bounce{0%,100%{margin-top:0}45%{margin-top:-24px;transform:translate(-50%,-50%) rotate(-4deg)}}@keyframes laugh{0%,100%{transform:translate(-50%,-50%) rotate(-5deg)}50%{transform:translate(-50%,-50%) rotate(5deg) scaleY(.96)}}@keyframes float{to{transform:translateY(-12px);opacity:0}}
+    .hint{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);z-index:9;background:var(--ink);color:#fff;border-radius:99px;padding:8px 12px;font-size:10px;white-space:nowrap;box-shadow:0 4px 18px #0003;transition:.3s}.hint.hide{opacity:0;transform:translate(-50%,8px);pointer-events:none}
+    .stats{position:absolute;left:14px;bottom:14px;font:9px ui-monospace,monospace;line-height:1.5;background:#fffff4cc;padding:6px 8px;border-left:3px solid var(--pink);backdrop-filter:blur(3px)}
+    .dock{position:absolute;z-index:30;left:0;right:0;bottom:0;height:124px;padding:12px 12px calc(10px + env(safe-area-inset-bottom));background:#f6f6e9;display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.tool{border:1.5px solid var(--ink);background:#fffef4;border-radius:13px;min-width:0;padding:8px 3px 6px;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;font-weight:750;box-shadow:2px 3px 0 var(--ink);transition:.12s}.tool:active{transform:translate(2px,3px);box-shadow:0 0 0 var(--ink)}.tool.primary{background:var(--acid)}.tool .ico{font-size:21px;line-height:1}.tool span:last-child{white-space:nowrap}
+    .sheet{position:absolute;z-index:50;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));background:#f8f8e9;border:1.5px solid var(--ink);border-radius:22px;padding:16px;box-shadow:5px 6px 0 var(--ink),0 16px 60px #0006;transform:translateY(130%);transition:.25s cubic-bezier(.2,.8,.2,1)}.sheet.open{transform:translateY(0)}.sheet-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.sheet-head strong{font-size:14px}.sheet-head button{border:0;background:none;font-size:22px}.sheet-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.sheet-grid button{border:1px solid var(--ink);border-radius:12px;background:white;padding:11px 4px;font-size:12px}.toast{position:absolute;z-index:80;left:50%;top:88px;transform:translate(-50%,-20px);background:var(--ink);color:white;border-radius:10px;padding:9px 13px;font-size:11px;opacity:0;pointer-events:none;transition:.2s;white-space:nowrap}.toast.show{opacity:1;transform:translate(-50%,0)}
+    .confetti{position:absolute;z-index:70;width:7px;height:13px;pointer-events:none;animation:fall 1.2s forwards}@keyframes fall{to{transform:translate(var(--dx),110dvh) rotate(720deg);opacity:0}}
+    @media (max-height:650px){header{height:68px;padding-top:calc(8px + env(safe-area-inset-top))}.lab{inset:68px 0 106px}.dock{height:106px;padding-top:8px}.tool{padding-top:5px}.tool .ico{font-size:18px}}
+    @media (prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <div class="brand"><div class="brand-mark">蛙</div><div><h1>奶蛙实验室</h1><p>RESEARCH PETS 03</p></div></div>
+      <div class="paper-pill">SCI · 影响因子 99.9</div>
+    </header>
+    <section class="lab" id="lab" aria-label="奶蛙互动实验区域">
+      <div class="chart-title">Naiwa productivity, cumulative</div><div class="chart-sub">n = 8 · p &lt; absolutely maybe</div>
+      <svg class="lines" viewBox="0 0 500 700" preserveAspectRatio="none" aria-hidden="true">
+        <polyline stroke="#ef6b6b" points="0,620 80,550 150,500 230,390 320,330 410,205 500,155"/><polyline stroke="#69b75d" points="0,600 80,530 150,465 230,430 320,315 410,270 500,120"/><polyline stroke="#e3aa36" points="0,640 80,515 150,450 230,350 320,300 410,180 500,90"/><polyline stroke="#c56bce" points="0,650 80,580 150,520 230,400 320,350 410,225 500,170"/><polyline stroke="#42b9cd" points="0,665 80,620 150,590 230,520 320,470 410,430 500,330"/>
+      </svg>
+      <div class="legend"><div><i style="border-color:#ef6b6b"></i>组会幸存率</div><div><i style="border-color:#69b75d"></i>摸鱼熟练度</div><div><i style="border-color:#e3aa36"></i>奶量指数</div></div>
+      <div class="axis-x">Date → 2035</div><div class="axis-y">论文产量</div><div id="pets"></div>
+      <div class="stats" id="stats">样本数量：8<br>审稿状态：大修</div><div class="hint" id="hint">拖动小蛙 · 点按蹦一下 · 长按菜单</div>
+    </section>
+    <nav class="dock" aria-label="实验工具">
+      <button class="tool primary" id="add"><span class="ico">＋</span><span>加一只</span></button>
+      <button class="tool" id="queue"><span class="ico">↗</span><span>排队</span></button>
+      <button class="tool" id="scatter"><span class="ico">⤢</span><span>散开</span></button>
+      <button class="tool" id="laugh"><span class="ico">◡̈</span><span>大笑</span></button>
+      <button class="tool" id="share"><span class="ico">⌁</span><span>分享</span></button>
+    </nav>
+    <div class="sheet" id="sheet" aria-hidden="true"><div class="sheet-head"><strong>研究对象设置</strong><button id="closeSheet" aria-label="关闭">×</button></div><div class="sheet-grid"><button data-act="big">放大</button><button data-act="tiny">缩小</button><button data-act="clone">复制</button><button data-act="sleep">睡觉</button><button data-act="random">随机位置</button><button data-act="remove">送回池塘</button></div></div>
+    <div class="toast" id="toast"></div>
+  </main>
+  <script>
+    const lab=document.querySelector('#lab'),petsEl=document.querySelector('#pets'),stats=document.querySelector('#stats'),hint=document.querySelector('#hint'),sheet=document.querySelector('#sheet'),toast=document.querySelector('#toast');
+    const img='laughing-frog.png',laughImg='laugh-v2.webp',laughAudio=new Audio('laugh.mp3');laughAudio.preload='auto';let pets=[],selected=null,longTimer,dragged=false,laughTimer;
+    const defaults=[[18,25],[50,22],[79,28],[31,45],[67,48],[15,69],[48,69],[82,72]];
+    const buzz=ms=>navigator.vibrate?.(ms);const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
+    function say(t){toast.textContent=t;toast.classList.add('show');clearTimeout(say.t);say.t=setTimeout(()=>toast.classList.remove('show'),1500)}
+    function save(){localStorage.setItem('naiwa-lab',JSON.stringify(pets.map(({x,y,size,mode})=>({x,y,size,mode}))));updateStats()}
+    function updateStats(){stats.innerHTML=`样本数量：${pets.length}<br>审稿状态：${pets.length>14?'编辑震惊':pets.length>9?'送审中':'大修'}`}
+    function addPet(x=12+Math.random()*76,y=18+Math.random()*62,opts={}){if(pets.length>=24){say('培养皿已满');return}const id=Date.now()+Math.random();const pet={id,x,y,size:opts.size||'',mode:opts.mode||''};const el=document.createElement('div');el.className=`pet ${pet.size} ${pet.mode}`;el.innerHTML=`<img src="${img}" alt="原创黄色奶蛙"><span class="tag">样本 #${pets.length+1}</span>`;pet.el=el;pets.push(pet);petsEl.append(el);bindPet(pet);render(pet);save();return pet}
+    function render(p){p.el.style.left=p.x+'%';p.el.style.top=p.y+'%';p.el.className=`pet ${p.size} ${p.mode}${selected===p?' selected':''}`}
+    function bindPet(p){let startX,startY,startPX,startPY,downAt;const down=e=>{e.preventDefault();dragged=false;downAt=Date.now();startX=e.clientX;startY=e.clientY;startPX=p.x;startPY=p.y;p.el.setPointerCapture?.(e.pointerId);longTimer=setTimeout(()=>{selected=p;pets.forEach(render);openSheet();buzz(30)},520)};const move=e=>{if(startX==null)return;let dx=e.clientX-startX,dy=e.clientY-startY;if(Math.hypot(dx,dy)>7){dragged=true;clearTimeout(longTimer);let r=lab.getBoundingClientRect();p.x=clamp(startPX+dx/r.width*100,7,93);p.y=clamp(startPY+dy/r.height*100,12,90);render(p)}};const up=()=>{clearTimeout(longTimer);if(startX==null)return;if(!dragged&&Date.now()-downAt<500){p.el.classList.remove('bounce');void p.el.offsetWidth;p.el.classList.add('bounce');setTimeout(()=>render(p),650);buzz(12)}else save();startX=startY=null};p.el.addEventListener('pointerdown',down);p.el.addEventListener('pointermove',move);p.el.addEventListener('pointerup',up);p.el.addEventListener('pointercancel',up)}
+    function openSheet(){sheet.classList.add('open');sheet.setAttribute('aria-hidden','false')}function closeSheet(){sheet.classList.remove('open');sheet.setAttribute('aria-hidden','true');if(selected){selected=null;pets.forEach(render)}}
+    function formation(kind){let n=pets.length;if(kind==='queue')pets.forEach((p,i)=>{p.x=10+(i%6)*16;p.y=78-(i%6)*10-Math.floor(i/6)*7;render(p)});else pets.forEach(p=>{p.x=9+Math.random()*82;p.y=16+Math.random()*70;render(p)});save();buzz(20)}
+    function confetti(){for(let i=0;i<26;i++){let c=document.createElement('i');c.className='confetti';c.style.cssText=`left:${Math.random()*100}%;top:-20px;background:${['#dff17a','#ff7c8f','#62cddb','#f3c84b'][i%4]};--dx:${-80+Math.random()*160}px;animation-delay:${Math.random()*.3}s`;document.querySelector('.app').append(c);setTimeout(()=>c.remove(),1700)}}
+    document.querySelector('#add').onclick=()=>{addPet();say('新样本已入组');buzz(18)};document.querySelector('#queue').onclick=()=>formation('queue');document.querySelector('#scatter').onclick=()=>formation('scatter');document.querySelector('#laugh').onclick=()=>{clearTimeout(laughTimer);const stamp=Date.now();pets.forEach(p=>{p.mode='source-laugh';p.el.querySelector('img').src=`${laughImg}?v=${stamp}`;render(p)});laughAudio.currentTime=0;laughAudio.play().catch(()=>say('再点一下开启声音'));laughTimer=setTimeout(()=>{pets.forEach(p=>{p.mode='';p.el.querySelector('img').src=img;render(p)});save()},17000);confetti();say('已启用你提供的捧腹大笑素材');buzz([20,30,20])};
+    document.querySelector('#share').onclick=async()=>{const data={title:'奶蛙实验室',text:'我的研究对象今天又不配合。你也来摆一摆：',url:location.href};try{if(navigator.share)await navigator.share(data);else{await navigator.clipboard.writeText(location.href);say('链接已复制')}}catch(e){if(e.name!=='AbortError')say('长按地址栏复制链接')}};
+    document.querySelector('#closeSheet').onclick=closeSheet;sheet.addEventListener('click',e=>{let a=e.target.dataset.act;if(!a||!selected)return;let p=selected;if(a==='big')p.size='big';if(a==='tiny')p.size='tiny';if(a==='sleep')p.mode=p.mode==='sleep'?'':'sleep';if(a==='random'){p.x=10+Math.random()*80;p.y=18+Math.random()*68}if(a==='clone')addPet(clamp(p.x+8,8,92),clamp(p.y+5,12,90),{size:p.size,mode:p.mode});if(a==='remove'){p.el.remove();pets=pets.filter(x=>x!==p);say('已送回池塘')}render(p);save();closeSheet();buzz(16)});
+    const stored=JSON.parse(localStorage.getItem('naiwa-lab')||'null');(stored?.length?stored:defaults.map(([x,y])=>({x,y}))).forEach(p=>addPet(p.x,p.y,p));setTimeout(()=>hint.classList.add('hide'),4200);
+    document.addEventListener('visibilitychange',()=>{if(document.hidden)save()});if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+  </script>
+</body>
+</html>

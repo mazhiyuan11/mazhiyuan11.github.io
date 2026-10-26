@@ -1,0 +1,12 @@
+{
+  "name": "奶蛙实验室",
+  "short_name": "奶蛙实验室",
+  "description": "一个可以拖拽、排队、增殖和大笑的手机桌宠实验室。",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f6f6e9",
+  "theme_color": "#dff17a",
+  "icons": [
+    {"src":"laughing-frog.png","sizes":"any","type":"image/png","purpose":"any"}
+  ]
+}
